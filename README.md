@@ -1,5 +1,7 @@
 # oriGen Phase 1 – Reproducible Analysis Code
 
+- This pipelines are meant to reproduce results from: TO-DO-add url and doi after paper is published
+
 Reproducible code and workflows for the oriGen Phase 1 analysis of 1,427 whole genomes.  
 
 Welcome! 👋  
@@ -15,7 +17,15 @@ The oriGen Phase 1 study is a population-scale genomic project focused on Mexica
 - Kinship Analysis
 - ADMIXTURE and Principal Component Analysis
 
-## 📁 Repository Structure
+## How to use this repository
+
+Each workflow subdirectory contains the Nextflow code used to run analysis on a part of the paper. No sensitive nor personal data is shared in the repositories.
+
+Every subdirectory includes a ./scripts/ dir with particular R, python or bash scripts for descriptive and or statistical analyses.
+
+Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow framework to run.
+
+## 📁 Workflow Subdirectory Structure
 
 ```bash
 ├── vep-extended/    # Variant Effect Annotation
