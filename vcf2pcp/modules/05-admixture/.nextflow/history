@@ -1,0 +1,3 @@
+2025-01-18 21:37:23	-	irreverent_ampere	-	8e3b352a666a9489e16c9c4418e27ec0	fb46a465-55b3-40d1-ab8f-84ea4238e1b1	nextflow run testmodule.nf --seed 100 --admx_threads 1 --amdx_maxk 3
+2025-01-18 21:38:54	-	wise_hilbert	-	8e3b352a666a9489e16c9c4418e27ec0	8d727004-d65e-4f61-b161-9b8347f3b9e4	nextflow run testmodule.nf --seed 100 --admx_threads 1 --amdx_maxk 3
+2025-01-18 21:40:11	41.2s	nauseous_brattain	OK	8e3b352a666a9489e16c9c4418e27ec0	8a7cafcd-3889-421b-8e32-11a467799a46	nextflow run testmodule.nf --seed 100 --admx_threads 1 --amdx_mink 4 --amdx_maxk 3

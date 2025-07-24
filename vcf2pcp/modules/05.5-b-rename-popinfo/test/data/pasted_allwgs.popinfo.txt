@@ -1,0 +1,1 @@
+../../../05.5-paste-projected-admx/test/results/05.5-paste_admx/pasted_allwgs.popinfo.txt

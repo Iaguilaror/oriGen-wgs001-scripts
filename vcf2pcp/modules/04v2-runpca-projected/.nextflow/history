@@ -1,0 +1,4 @@
+2024-10-18 16:23:16	5.5s	ridiculous_booth	ERR	50b12b87f741651fac2b1893847f1f02	699d6eab-d90e-4c70-a149-a68be97439cb	nextflow run testmodule.nf
+2024-10-18 16:26:45	4.9s	voluminous_koch	ERR	0b8856cc8f4ead03e89fc92bcc9089e5	6459de91-344a-49b6-83b8-eda23261e5c7	nextflow run testmodule.nf --pca_refpops test/reference/refpops-for-projection.txt
+2024-10-18 16:28:03	-	lonely_colden	-	16ca2396c7be1dd6d1ad4b2c34bdf779	d1813a8d-7496-4077-a244-ce20d105d079	nextflow run testmodule.nf --pca_refpops test/reference/refpops-for-projection.txt
+2024-10-18 16:28:44	49.3s	serene_kimura	OK	8b71d5d389c97b4ec1e34646f3bfbeee	53517c9e-61ce-4d67-acca-1cefdee029d0	nextflow run testmodule.nf --pca_refpops test/reference/refpops-for-projection.txt

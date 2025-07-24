@@ -1,0 +1,4 @@
+2024-10-18 15:04:40	6.1s	fervent_marconi	OK	c91bda647508e8c937b91e4f686f99a0	77915701-879c-4f25-938c-e511014e1cf5	nextflow run testmodule.nf
+2025-01-18 14:37:47	5.3s	small_albattani	OK	c91bda647508e8c937b91e4f686f99a0	cd1eda20-af43-46dc-84ba-5556004cabfd	nextflow run testmodule.nf
+2025-01-18 21:36:34	3.7s	cheeky_meitner	OK	c91bda647508e8c937b91e4f686f99a0	fc8185aa-fe3b-496b-adff-da2b4332eef1	nextflow run testmodule.nf
+2025-01-18 21:38:15	4s	backstabbing_brown	OK	c91bda647508e8c937b91e4f686f99a0	f22d0a28-ad91-4683-8350-eedd4f1bdf8c	nextflow run testmodule.nf
