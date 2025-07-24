@@ -19,7 +19,7 @@ The oriGen Phase 1 study is a population-scale genomic project focused on Mexica
 
 ## How to use this repository
 
-Each workflow subdirectory contains the Nextflow code used to run analysis on a part of the paper. No sensitive nor personal data is shared in the repositories.
+Each workflow subdirectory contains the Nextflow code used to run analysis on a part of the paper. **No sensitive nor personal data is shared in the repositories**.
 
 Every subdirectory includes a ./scripts/ dir with particular R, python or bash scripts for descriptive and or statistical analyses.
 
@@ -35,3 +35,17 @@ Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow f
 ├── vcf2pcp/         # ADMIXTURE and Principal Component Analysis
 └── README.md        # This file
 ```
+
+### Contact
+If you have questions, requests, or bugs to report, please open an issue in this github page.  
+
+### Dev Team
+Israel Aguilar-Ordonez <iaguilaror@gmail.com>   
+Victor Trevino Alvarado <vtrevino@tec.mx>   
+Eugenio Guzman Cerezo <eugenio.guzman@tec.mx>   
+
+### Cite us
+
+If you find the code in this repository useful, please include the following citation in your work:
+
+TO-DO after publication.  
