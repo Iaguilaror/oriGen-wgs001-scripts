@@ -1,0 +1,13 @@
+# ignore some big vcf files used to create the test data of this repo
+prepare-env/test/data/*.vcf.gz*
+
+# ignore any kind or results dir
+**/results
+
+# ignore any work dir
+**/work
+
+# ignore any nextflow temp dir and logs
+**.nextflow.log*
+**.nextflow
+

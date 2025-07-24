@@ -1,0 +1,12 @@
+# ignore test res
+modules/*/test/results/
+
+# ignore r histories
+*.Rhistory
+
+*.nextflow*
+
+work
+
+test/results/
+test/origen-kinship-results/
