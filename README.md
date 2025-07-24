@@ -19,7 +19,9 @@ The oriGen Phase 1 study is a population-scale genomic project focused on Mexica
 
 ## How to use this repository
 
-Each workflow subdirectory contains the Nextflow code used to run analysis on a part of the paper. **No sensitive nor personal data is shared in the repositories**.
+Each workflow subdirectory contains the Nextflow code used to run analysis on a part of the paper. 
+
+### **No sensitive nor personal data is shared in the repositories**.
 
 Every subdirectory includes a ./scripts/ dir with particular R, python or bash scripts for descriptive and or statistical analyses.
 
