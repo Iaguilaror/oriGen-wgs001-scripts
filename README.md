@@ -46,6 +46,8 @@ Israel Aguilar-Ordonez <iaguilaror@gmail.com>
 Victor Trevino Alvarado <vtrevino@tec.mx>   
 Eugenio Guzman Cerezo <eugenio.guzman@tec.mx>   
 
+This code was developed as part of Israel Aguilar-Ordoñez’s postdoctoral research at Tecnológico de Monterrey during the 2024–2025.
+
 ### Cite us
 
 If you find the code in this repository useful, please include the following citation in your work:
