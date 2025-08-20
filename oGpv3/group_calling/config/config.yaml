@@ -1,0 +1,11 @@
+dataset: "../config/oriGen-1437.tsv"
+cram_format: "../input/CRAMS/{runid}/{codeid}.cram"
+ref_genome: "../resources/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa"
+chroms: [
+   '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9', '10',
+  '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+  '21', '22',  'X',  'Y', 'MT' ]
+
+calculate_coverage: false
+threads: 48
+anno_threads: 3
