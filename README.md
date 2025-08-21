@@ -9,13 +9,16 @@ This repository contains code used to analyze the data in the oriGen Phase 1 stu
 
 ## 📄 About the Study
 
-The oriGen Phase 1 study is a population-scale genomic project focused on Mexican individuals. This release includes:
+The oriGen Phase 1 study is a population-scale genomic project focused on Mexican individuals. This release includes:  
 
-- Variant Effect Annotation
-- CNV Analysis
-- Loss of Function Summary
-- Kinship Analysis
-- ADMIXTURE and Principal Component Analysis
+- oGpv3: NGS preprocessing, QC, alignment and Variant Calling
+- vep-extended: Variant Effect Annotation
+- LoFbySample: Loss of Function variation summary
+- vcf2kinship: Kinship Analysis with KING2
+- vcf2pcp: ADMIXTURE and Principal Component Analysis from joint population VCF
+- cnv-analysis: Processing of the CNV BCFs from CNVpytor
+- cov-calculation: NGS coverage calculation by exon for CN estimation
+- viral-detection: Detection of viral hits in sequencing data
 
 ## How to use this repository
 
