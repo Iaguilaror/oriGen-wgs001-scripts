@@ -1,15 +1,15 @@
-# oriGen Phase 1 – Reproducible Analysis Code
+# oriGen – Analysis Code
 
 - The code in this repository are meant to reproduce results from: TO-DO-add url and doi after paper is published
 
-Workflows for the oriGen Phase 1 analysis of 1,427 whole genomes.  
+Workflows for the oriGen Analysis of 1,427 whole genomes.  
 
 Welcome! 👋  
-This repository contains code used to analyze the data in the oriGen Phase 1 study, which involved whole-genome sequencing of 1,427 individuals. Our goal is to provide transparent and reproducible access to the workflows behind our results.
+This repository contains code used to analyze the data in the oriGen study, which involved whole-genome sequencing of 1,427 individuals. Our goal is to provide transparent and reproducible access to the workflows behind our results.
 
 ## 📄 Contents of this repository  
 
-The oriGen Phase 1 study is a population-scale genomic project focused on Mexican individuals. This release includes the following subdirectories:  
+The oriGen study is a population-scale genomic project focused on Mexican individuals. This release includes the following subdirectories:  
 
 - **oGpv3**: NGS preprocessing, QC, alignment and Variant Calling
 - **vep-extended**: Variant Effect Annotation
