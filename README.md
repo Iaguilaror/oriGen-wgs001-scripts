@@ -9,7 +9,7 @@ This repository contains code used to analyze the data in the oriGen Phase 1 stu
 
 ## 📄 Contents of this repository  
 
-The oriGen Phase 1 study is a population-scale genomic project focused on Mexican individuals. This release includes:  
+The oriGen Phase 1 study is a population-scale genomic project focused on Mexican individuals. This release includes the following subdirectories:  
 
 - **oGpv3**: NGS preprocessing, QC, alignment and Variant Calling
 - **vep-extended**: Variant Effect Annotation
