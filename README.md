@@ -30,11 +30,14 @@ Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow f
 ## 📁 Workflow Subdirectory Structure
 
 ```bash
-├── vep-extended/    # Variant Effect Annotation
-├── cnv-analysis/    # CNV Analysis
+├── cnv-analysis/    # CNV Analysis from CNVpytor output
+├── cov-calculation  # Coverage calculation for CNV estimation
 ├── LoFbySample/     # Loss of Function Summary
+├── oGpv3            # pipeline for pre-processing, QC, alignment and short variant calling
 ├── vcf2kinship/     # Kinship Analysis
 ├── vcf2pcp/         # ADMIXTURE and Principal Component Analysis
+├── vep-extended/    # Variant Effect Annotation
+├── viral-detection  # Analysis of viral hits in NGS data
 └── README.md        # This file
 ```
 
