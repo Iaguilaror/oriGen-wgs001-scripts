@@ -1,8 +1,8 @@
 # oriGen Phase 1 – Reproducible Analysis Code
 
-- This pipelines are meant to reproduce results from: TO-DO-add url and doi after paper is published
+- The code in this repository are meant to reproduce results from: TO-DO-add url and doi after paper is published
 
-Reproducible code and workflows for the oriGen Phase 1 analysis of 1,427 whole genomes.  
+Workflows for the oriGen Phase 1 analysis of 1,427 whole genomes.  
 
 Welcome! 👋  
 This repository contains code used to analyze the data in the oriGen Phase 1 study, which involved whole-genome sequencing of 1,427 individuals. Our goal is to provide transparent and reproducible access to the workflows behind our results.
