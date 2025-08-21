@@ -7,7 +7,7 @@ Reproducible code and workflows for the oriGen Phase 1 analysis of 1,427 whole g
 Welcome! 👋  
 This repository contains code used to analyze the data in the oriGen Phase 1 study, which involved whole-genome sequencing of 1,427 individuals. Our goal is to provide transparent and reproducible access to the workflows behind our results.
 
-## 📄 About the Study
+## 📄 Contents of this repository  
 
 The oriGen Phase 1 study is a population-scale genomic project focused on Mexican individuals. This release includes:  
 
