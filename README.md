@@ -22,7 +22,15 @@ The oriGen study is a population-scale genomic project focused on Mexican indivi
 
 ## How to use this repository
 
-Each workflow subdirectory contains the Nextflow code used to run analysis on a part of the paper. 
+Each workflow subdirectory contains:
+
+* The Source code used to run analysis on a part of the paper
+* A small (simulated or real) dataset to demo the code
+* All software dependencies and operating systems  
+* Installation instructions
+* Output examples
+* Expected runtimes
+* Instructions for use on your own data
 
 ### **No sensitive nor personal data is shared in the repositories**.
 
