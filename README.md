@@ -32,7 +32,7 @@ Each workflow subdirectory contains:
 * Expected runtimes
 * Instructions for use on your own data
 
-### **No sensitive nor personal data is shared in the repositories**.
+### * **No sensitive nor personal data is shared in the repositories** *
 
 Every subdirectory includes a ./scripts/ dir with particular R, python or bash scripts for descriptive and or statistical analyses.
 
