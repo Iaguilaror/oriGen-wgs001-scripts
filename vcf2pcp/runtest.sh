@@ -8,9 +8,9 @@ params_config="configfiles/params-strict.config"
 echo -e "======\n Testing NF execution \n======" \
 && rm -rf $output_directory \
 && nextflow run main.nf \
-    --input_dir $input_dir \
+	--input_dir $input_dir \
 	--output_dir $output_directory \
-	--sample_list "test/reference/OriGen_Phase1_1Kg_and_AiGA.tsv" \
+	--sample_list "test/reference/sample_annotations_test.tsv" \
 	--pca_refpops "test/reference/refpops-for-projection.txt" \
 	--projected true \
 	--params_config $params_config \
