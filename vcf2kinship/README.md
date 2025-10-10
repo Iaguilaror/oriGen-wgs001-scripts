@@ -11,9 +11,9 @@ The pipeline takes as INPUT a VCF and .tbi file created by joint genotyping, wit
 
 'vcf2kin' is a pipeline tool that takes variant data in VCF format and process it to generate the followin outputs:  
 
-For ONE VCF and .tbi pair of files, you get these outputs:  
-
 ````
+For ONE VCF and .tbi pair of files, you get these outputs
+
 1) 1_allsamples.png                    # Shows all the inferred relations from PO(parent-offspring), FS(FullSiblings), 2nd, 3rd, 4th degree, and UNrelate.
 2) 2_related_samples.png               # same as 1, but only showing samples with at least 1(one) relation of any type.
 3) 3_types_of_pair.png                 # Summary of the type of relations found.
