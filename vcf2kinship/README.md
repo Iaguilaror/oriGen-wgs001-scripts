@@ -81,7 +81,7 @@ Download pipeline from Github repository:
 ```
 git clone https://github.com/Iaguilaror/oriGen-wgs001-scripts.git
 
-cd vcf2kinship
+cd oriGen-wgs001-scripts/vcf2kinship
 ```
 
 ---
@@ -145,9 +145,9 @@ Example contents
 
 ### Pipeline Results
 
-Inside the directory test/results/03-plotking you can find the following:
-
 ```
+Inside the directory test/results/origen-kinship-results/03-plotking you can find the following:
+
 1) 1_allsamples.png                    # Shows all the inferred relations from PO(parent-offspring), FS(FullSiblings), 2nd, 3rd, 4th degree, and UNrelate.
 2) 2_related_samples.png               # same as 1, but only showing samples with at least 1(one) relation of any type.
 3) 3_types_of_pair.png                 # Summary of the type of relations found.
@@ -174,7 +174,6 @@ Inside the directory test/results/04-getsamples-from-vcf you can find the follow
 
 ````
 .
-├── dev_notes/      # includes development notes like the png for the workflow
 ├── main.nf         # the Nextflow main script
 ├── modules/        # sub-dirs for development of the Nextflow modules
 ├── README.md       # This readme
@@ -195,12 +194,11 @@ Under the hood Proteomic compare uses some coding tools, please include the foll
 
 * Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” Journal of Open Source Software, 4(43), 1686. doi:10.21105/joss.01686.
 
-* Danecek, Petr, et al. "Twelve years of SAMtools and BCFtools." Gigascience 10.2 (2021): giab008.
-
 * Purcell, Shaun, et al. "PLINK: a tool set for whole-genome association and population-based linkage analyses." The American journal of human genetics 81.3 (2007): 559-575.
 
-* Manichaikul, Ani, et al. "Robust relationship inference in genome-wide association studies." Bioinformatics 26.22 (2010): 2867-2873.
+* D.H. Alexander, J. Novembre, and K. Lange. Fast model-based estimation of ancestry in unrelated individuals. Genome Research, 19:1655–1664, 2009.
 
+* Ma, Jianzhong, and Christopher I. Amos. "Theoretical formulation of principal components analysis to detect and correct for population stratification." PloS one 5.9 (2010): e12510.
 
 ---
 
