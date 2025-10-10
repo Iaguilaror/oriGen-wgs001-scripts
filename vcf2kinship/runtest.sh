@@ -1,6 +1,5 @@
 input_dir="test/data/"
 output_directory="test/results"
-surveydata="test/reference/MXL_origen_dummy_survey_completion.tsv"
 
 echo -e "======\n Testing NF execution \n======" \
 && rm -rf $output_directory \
