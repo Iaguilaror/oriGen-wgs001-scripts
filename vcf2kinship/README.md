@@ -147,6 +147,7 @@ Example contents
 
 Inside the directory test/results/03-plotking you can find the following:
 
+```
 1) 1_allsamples.png                    # Shows all the inferred relations from PO(parent-offspring), FS(FullSiblings), 2nd, 3rd, 4th degree, and UNrelate.
 2) 2_related_samples.png               # same as 1, but only showing samples with at least 1(one) relation of any type.
 3) 3_types_of_pair.png                 # Summary of the type of relations found.
@@ -165,6 +166,8 @@ Inside the directory test/results/03b-select2remove you can find the following:
 Inside the directory test/results/04-getsamples-from-vcf you can find the following:
 
 13) *.only_unrelated_samples.vcf.gz    # VCF file, without samples related up to 2nd degree
+```
+
 ---
 
 ### module directory structure
