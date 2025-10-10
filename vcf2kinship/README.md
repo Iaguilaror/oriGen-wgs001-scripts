@@ -1,9 +1,6 @@
 # origen-vcf2kinship
 NF pipeline to estimate kinship coefficients with King2 for all pairwise relationships in the origen data
 
-### Workflow overview
-![General Workflow](dev_notes/Workflow.png)
-
 ===  
 
 - A tool for finding related samples in VCF files
@@ -14,8 +11,9 @@ The pipeline takes as INPUT a VCF and .tbi file created by joint genotyping, wit
 
 'vcf2kin' is a pipeline tool that takes variant data in VCF format and process it to generate the followin outputs:  
 
-For ONE VCF and .tbi pair of files
+For ONE VCF and .tbi pair of files, you get these outputs:  
 
+````
 1) 1_allsamples.png                    # Shows all the inferred relations from PO(parent-offspring), FS(FullSiblings), 2nd, 3rd, 4th degree, and UNrelate.
 2) 2_related_samples.png               # same as 1, but only showing samples with at least 1(one) relation of any type.
 3) 3_types_of_pair.png                 # Summary of the type of relations found.
@@ -29,6 +27,7 @@ For ONE VCF and .tbi pair of files
 11) barra_related.png                  # Column plot showing N and % of samples that will be removed.
 12) samples_to_remove.txt              # list of ID samples that will be removed to eliminate kin relationships up to 2nd degree
 13) *.only_unrelated_samples.vcf.gz    # VCF file, without samples related up to 2nd degree
+````
 
 ---
 
@@ -207,6 +206,10 @@ If you have questions, requests, or bugs to report, open an issue in github, or 
 
 ### Dev Team
 Israel Aguilar-Ordonez <iaguilaror@gmail.com>   
+Victor Trevino Alvarado <vtrevino@tec.mx>   
+Eugenio Guzman Cerezo <eugenio.guzman@tec.mx>   
+
+This code was developed as part of Israel Aguilar-Ordoñez’s postdoctoral research at Tecnológico de Monterrey during the 2024–2025.
 
 ### Cite us
 - TO-DO
