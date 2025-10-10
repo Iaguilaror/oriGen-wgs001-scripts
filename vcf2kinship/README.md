@@ -59,6 +59,9 @@ dplyr version: 1.1.4
 ggplot2 version: 3.5.1
 ggsci version: 3.2.0
 patchwork version: 1.2.0
+tidyverse version: 2.0.0
+scales version: 1.4.0
+ggtern version: 3.5.0
 ```
 
 ---
