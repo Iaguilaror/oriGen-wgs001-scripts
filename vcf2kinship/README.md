@@ -186,7 +186,7 @@ Inside the directory test/results/04-getsamples-from-vcf you can find the follow
 
 ---
 ### References
-Under the hood Proteomic compare uses some coding tools, please include the following ciations in your work:
+Under the hood this pipeline uses some coding tools, please include the following ciations in your work:
 
 * Di Tommaso, P., Chatzou, M., Floden, E. W., Barja, P. P., Palumbo, E., & Notredame, C. (2017). Nextflow enables reproducible computational workflows. Nature Biotechnology, 35(4), 316–319. doi:10.1038/nbt.3820
 

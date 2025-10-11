@@ -42,7 +42,7 @@ For ONE VCF and .tbi pair of files, and the corresponding sample population anno
 #### Incompatible OS*:
 * UNKNOWN  
 
-\* origen-vcf2kinship may run in other UNIX based OS and versions, but testing is required.  
+\* origen-vcf2pcp may run in other UNIX based OS and versions, but testing is required.  
 
 #### Command line Software required:
 | Requirement | Version  | Required Commands * |
@@ -88,6 +88,7 @@ cd oriGen-wgs001-scripts/vcf2pcp
 ## Replicate our analysis (Testing the pipeline):
 
 * Estimated test time:  **10 minute(s)**  
+* on a 16 core, 64G RAM machine  
 
 1. To test pipeline execution using test data, run:  
 ```
@@ -194,7 +195,7 @@ Inside the directory test/results/origen-VCF2PCP-2-results/05c-gather_admixture/
 
 ---
 ### References
-Under the hood Proteomic compare uses some coding tools, please include the following ciations in your work:
+Under the hood this pipeline uses some coding tools, please include the following ciations in your work:
 
 * Di Tommaso, P., Chatzou, M., Floden, E. W., Barja, P. P., Palumbo, E., & Notredame, C. (2017). Nextflow enables reproducible computational workflows. Nature Biotechnology, 35(4), 316–319. doi:10.1038/nbt.3820
 
@@ -216,6 +217,10 @@ If you have questions, requests, or bugs to report, open an issue in github, or 
 
 ### Dev Team
 Israel Aguilar-Ordonez <iaguilaror@gmail.com>   
+Victor Trevino Alvarado <vtrevino@tec.mx>   
+Eugenio Guzman Cerezo <eugenio.guzman@tec.mx>   
+
+This code was developed as part of Israel Aguilar-Ordoñez’s postdoctoral research at Tecnológico de Monterrey during the 2024–2025.
 
 ### Cite us
 - TO-DO
