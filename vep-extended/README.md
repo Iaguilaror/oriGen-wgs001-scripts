@@ -143,10 +143,6 @@ Example contents
 ...
 ```  
 
-GRCh38_dbsnp156.vcf.gz
-gnomAD_v4_for_VEP_annotation.vcf.gz
-MCPS_for_VEP_annotation.vcf.gz 
-
 * A `GRCh38_dbsnp156.vcf.gz` VCF file containing the dbSNP Build 156 database aligned to the human genome reference GRCh38.  
 
 * A `gnomAD_v4_for_VEP_annotation.vcf.gz` VCF file containing the gnomAD v4 database (all chromosomes).  
