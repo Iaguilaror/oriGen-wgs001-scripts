@@ -1,6 +1,6 @@
 #!/bin/bash
 
-input_dir="prepare-env/test/data/"
+input_dir="test/data/"
 output_directory="test/results"
 
 echo -e "======\n Testing NF execution \n======" \
