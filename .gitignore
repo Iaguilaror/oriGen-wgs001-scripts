@@ -1,3 +1,16 @@
+# ignore any kind or results dir
+**/results
+
+# ignore any work dir
+**/work
+
+# ignore any nextflow temp dir and logs
+**.nextflow.log*
+**.nextflow
+
+real-data/
+real-results/
+
 # History files
 .Rhistory
 .Rapp.history
