@@ -38,13 +38,13 @@ For MULTIPLE BCF and .csi pair of files
 ---
 
 ## Requirements
-#### This pipeline was successfully teste on the following OS*:  
+#### This pipeline was successfully tested on the following OS*:  
 * [Ubuntu 22.04.4 LTS](https://releases.ubuntu.com/focal/)
 
 #### Incompatible OS*:
 * UNKNOWN  
 
-\* origen-LoFbySample may run in other UNIX based OS and versions, but testing is required.  
+\* This pipeline may run in other UNIX based OS and versions, but testing is required.  
 
 #### Command line Software required:
 | Requirement | Version  | Required Commands * |

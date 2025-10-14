@@ -28,7 +28,6 @@ _000_biomart
 Core-processing:
 _001_getcov
 _002_gather
-_003_plot_genes
 
 Pos-processing
 
@@ -118,15 +117,16 @@ include { DOWNLOADMART }   from  './modules/0-biomart-download'
 include { GETCOV }         from  './modules/01-getcov'
 include { MEANCOV }         from  './modules/01.5-meancov'
 
-
 include { GATHERCOVS }     from  './modules/02-gather_covs'
-include { PLOTGENES }      from  './modules/03-plot-genes'
 
 /* load scripts to send to workdirs */
 /* declare scripts channel from modules */
 biomart_script  = Channel.fromPath( "scripts/0-biomart.R" )
 mean_script     = Channel.fromPath( "scripts/01.5v2-mean.R" )
 gather_script   = Channel.fromPath( "scripts/2-gather.R" )
+
+gather_chunks_script = Channel.fromPath( "scripts/2-2-gatherchunk.sh" )
+
 gene_script     = Channel.fromPath( "scripts/3-geneplot.R" )
 
 workflow mainflow {
@@ -138,11 +138,6 @@ workflow mainflow {
     .fromPath( "${params.input_dir}/*.cram" )
     .map { cramFile -> [cramFile, file("${cramFile}.crai")] }
     .set { cram_channel }
-
-// load reference
-	// Channel
-  //       .fromPath( "${params.cram_ref}" )
-  //       .set { ref_channel }
 
     mart_channel = DOWNLOADMART( biomart_script )
 
@@ -161,18 +156,21 @@ workflow mainflow {
 
   all_mean = MEANCOV( data_channel_2 )  | toList
 
-  tsv_channel = GATHERCOVS( all_mean, gather_script, mart_channel )
+  collated_tsv = all_mean
+   .flatten( )
+   .collate( params.table_chunk_size )
 
-  Channel
-      .fromPath( "${params.genes_of_interest}" )
-      .set { goi_channel }
+  group_ids = collated_tsv
+    .toList( )
+    .map { it.size() }
+    .map { N -> (1..N).toList() }     // creates list [1, 2, ..., N]
+    .flatten()
 
-  Channel
-      .fromPath( "${params.contrast_dir}/*.tsv" )
-      .toList( )
-      .set { contrast_channel }
+tsv_chunks = group_ids
+   .merge( collated_tsv ) { a, b -> tuple(a, b) }
 
-  PLOTGENES( tsv_channel, gene_script, goi_channel, contrast_channel )
+
+  tsv_channel = GATHERCOVS( tsv_chunks, gather_script, mart_channel, gather_chunks_script )
 
 }
 
