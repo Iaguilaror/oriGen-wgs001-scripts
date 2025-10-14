@@ -32,7 +32,7 @@ For ONE VCF and .tbi pair of files
 ---
 
 ## Requirements
-#### Compatible OS*:
+#### This pipeline was successfully teste on the following OS*:  
 * [Ubuntu 22.04.4 LTS](https://releases.ubuntu.com/focal/)
 
 #### Incompatible OS*:
