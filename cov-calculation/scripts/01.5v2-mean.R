@@ -3,7 +3,11 @@ pacman::p_load( "vroom", "dplyr" )
 
 # load data
 data.df <- vroom( file = list.files( pattern = "\\.sumdp\\.tmp$", full.names = TRUE ),
-                  show_col_types = FALSE, col_names = FALSE, na = "." ) %>% 
+                  show_col_types = FALSE,
+                  col_names = FALSE,
+                  na = ".",
+                  col_types = "ciicici",
+                  ) %>% 
   as_tibble( ) %>% 
   rename( chrom = 1,
           start = 2,
