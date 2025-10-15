@@ -49,7 +49,7 @@ ANNOVAR_DBS = {
 SAMPLES = [tuple(x.split("/")) for x in os.environ["SAMPLES"].split(",")]
 RUNIDS = [runid for runid, codeid in SAMPLES]
 CODEIDS = [codeid for runid, codeid in SAMPLES]
-REF_GENOME_FILENAME = "Homo_sapiens.GRCh38.dna_sm.primary_assembly"
+REF_GENOME_FILENAME = "21_Homo_sapiens.GRCh38.dna_sm.primary_assembly"
 REF_GENOME_REMOTE = f"ref/{REF_GENOME_FILENAME}.fa"
 REF_GENOME = f"cache/ref/{REF_GENOME_FILENAME}.fa"
 MEM_MB_PER_THREAD = 2500
@@ -872,70 +872,3 @@ rule annosnv_bcf_to_sto:
 		cp {input.bcf} {output.bcf}
 		cp {input.bcfi} {output.bcfi}
 	"""
-
-# TODO: REMOVE to simplify
-### To blob storage
-rule cram_to_blob:
-	input:
-		cram = "work/merged_{runid}_{codeid}.cram",
-		crai = "work/merged_{runid}_{codeid}.cram.crai",
-	output:
-		cram = f"blob/cramstorage/{OGPV}_"+"{runid}_{codeid}.cram",
-		crai = f"blob/cramstorage/{OGPV}_"+"{runid}_{codeid}.cram.crai"
-	shell: """
-		cp {input.cram} {output.cram}
-		cp {input.crai} {output.crai}
-	"""
-
-# TODO: REMOVE to simplify
-rule snv_bcf_to_blob:
-	input:
-		bcf = "work/snv_{runid}_{codeid}.bcf",
-		bcfi = "work/snv_{runid}_{codeid}.bcf.csi",
-	output:
-		bcf = f"blob/vcfstorage/{OGPV}_SNV_"+"{runid}_{codeid}.bcf",
-		bcfi = f"blob/vcfstorage/{OGPV}_SNV_"+"{runid}_{codeid}.bcf.csi"
-	shell: """
-		cp {input.bcf} {output.bcf}
-		cp {input.bcfi} {output.bcfi}
-	"""
-
-# TODO: REMOVE to simplify
-rule sv_bcf_to_blob:
-	input:
-		bcf = "work/sv_{runid}_{codeid}.bcf",
-		bcfi = "work/sv_{runid}_{codeid}.bcf.csi",
-	output:
-		bcf = f"blob/vcfstorage/{OGPV}_SV_"+"{runid}_{codeid}.bcf",
-		bcfi = f"blob/vcfstorage/{OGPV}_SV_"+"{runid}_{codeid}.bcf.csi"
-	shell: """
-		cp {input.bcf} {output.bcf}
-		cp {input.bcfi} {output.bcfi}
-	"""
-
-# TODO: REMOVE to simplify
-rule cnv_bcf_to_blob:
-	input:
-		bcf = "work/cnv_{runid}_{codeid}.bcf",
-		bcfi = "work/cnv_{runid}_{codeid}.bcf.csi",
-	output:
-		bcf = f"blob/vcfstorage/{OGPV}_CNV_"+"{runid}_{codeid}.bcf",
-		bcfi = f"blob/vcfstorage/{OGPV}_CNV_"+"{runid}_{codeid}.bcf.csi"
-	shell: """
-		cp {input.bcf} {output.bcf}
-		cp {input.bcfi} {output.bcfi}
-	"""
-
-# TODO: REMOVE to simplify
-rule annosnv_bcf_to_blob:
-	input:
-		bcf = "work/snv-anno_{runid}_{codeid}.bcf",
-		bcfi = "work/snv-anno_{runid}_{codeid}.bcf.csi",
-	output:
-		bcf = f"blob/vcfstorage/{OGPV}_annoSNV_"+"{runid}_{codeid}.bcf",
-		bcfi = f"blob/vcfstorage/{OGPV}_annoSNV_"+"{runid}_{codeid}.bcf.csi"
-	shell: """
-		cp {input.bcf} {output.bcf}
-		cp {input.bcfi} {output.bcfi}
-	"""
-
