@@ -22,24 +22,15 @@ OGPV = "oGpv3"
 # ./ref/ --> /StorageVolume/REF_GENOMES/
 
 # On-premise
-if os.path.exists("/scratch"):
-	THREADS = 12
-	save_to_blobsto = False
-	do_cache = "false"
-
-# Azure workflow
-elif os.path.exists("/StorageVolume"):
-	THREADS = 10
-	save_to_blobsto = True
-	do_cache = "true"
-
-else:
-	raise Exception("Could not resolve execution environment from root directory structure")
-
-
+# if os.path.exists("/scratch"):
+THREADS = 12
+save_to_blobsto = False
+do_cache = "false"
 
 CONTIGS = list(map(str, range(1,23))) + ["X", "Y", "MT"]
 LANES = [1,2,3,4]
+
+# This was not used, should delete
 ANNOVAR_DBS = {
 	"refGene": "g",
 	"cytoBand": "r",
@@ -52,6 +43,8 @@ ANNOVAR_DBS = {
 	"revel": "f",
 	"mcap": "f"
 }
+
+# TODO: change reference to chr21 or something smaller (github limits)
 
 SAMPLES = [tuple(x.split("/")) for x in os.environ["SAMPLES"].split(",")]
 RUNIDS = [runid for runid, codeid in SAMPLES]
@@ -158,6 +151,7 @@ rule cache_ref:
 		fi
 	"""
 
+# TODO: REMOVE, did not use annotation
 rule cache_anno:
 	input: "anno/"
 	output: directory("cache/anno/")
@@ -415,6 +409,7 @@ rule join_snv:
 			echo LsFailedException: {output.bcfi} >> {log}
 	"""
 
+# TODO: REMOVE to simplify
 rule discover_sv: #v3
 	input:
 		cram = "work/merged_{runid}_{codeid}.cram",
@@ -443,7 +438,8 @@ rule discover_sv: #v3
 		du -bc {output} >> {log} 2>&1 ||
 			echo DuFailedException: {output} >> {log}
 	"""
-	
+
+# TODO: REMOVE to simplify	
 rule call_sv: #v3
 	input:
 		cram = "work/merged_{runid}_{codeid}.cram",
@@ -472,6 +468,7 @@ rule call_sv: #v3
 			echo DuFailedException: {output} >> {log}
 	"""
 
+# TODO: REMOVE to simplify
 rule join_sv:
 	input:
 		contigs = expand("work/sv-gt_{{runid}}_{{codeid}}/{contig}/", contig=CONTIGS),
@@ -617,6 +614,7 @@ rule sort_cnv_bcf: #v3
 			echo LsFailedException: {output.bcfi} >> {log}
 	"""
 
+# TO-DO REMOVE
 rule annotate_snv:
 	input:
 		bcf = "work/snv_{runid}_{codeid}.bcf",
@@ -668,6 +666,7 @@ rule annotate_snv:
 			echo LsFailedException: {output.txt} >> {log}
 	"""
 
+# TODO: REMOVE to simplify
 rule reheader_anno_snv:
 	input:
 		bcf = "work/snv_{runid}_{codeid}.bcf",
@@ -732,7 +731,7 @@ rule reheader_anno_snv:
 
 
 
-
+# TODO: REMOVE to simplify
 ### --- QC --- ###
 rule cram_lane_coverage:
 	input: "work/dupsmarked_{runid}_{codeid}_L{lane}.cram"
@@ -754,6 +753,7 @@ rule cram_lane_coverage:
 			echo LsFailedException: {output} >> {log}
 	"""
 
+# TODO: REMOVE to simplify
 rule cram_stats: # v3
 	input:
 		cram = "work/merged_{runid}_{codeid}.cram",
@@ -780,6 +780,7 @@ rule cram_stats: # v3
 			echo LsFailedException: {output} >> {log}
 	"""
 
+# TODO: REMOVE to simplify
 rule snvbcf_stats: # v3
 	input:
 		bcf = "work/snv_{runid}_{codeid}.bcf",
@@ -806,7 +807,7 @@ rule snvbcf_stats: # v3
 			echo LsFailedException: {output} >> {log}
 	"""
 
-
+# TODO: REMOVE to simplify
 #### To storage
 rule cram_to_sto:
 	input:
@@ -820,6 +821,7 @@ rule cram_to_sto:
 		cp {input.crai} {output.crai}
 	"""
 
+# TODO: REMOVE to simplify
 rule snv_bcf_to_sto:
 	input:
 		bcf = "work/snv_{runid}_{codeid}.bcf",
@@ -832,6 +834,7 @@ rule snv_bcf_to_sto:
 		cp {input.bcfi} {output.bcfi}
 	"""
 
+# TODO: REMOVE to simplify
 rule sv_bcf_to_sto:
 	input:
 		bcf = "work/sv_{runid}_{codeid}.bcf",
@@ -844,6 +847,7 @@ rule sv_bcf_to_sto:
 		cp {input.bcfi} {output.bcfi}
 	"""
 
+# TODO: REMOVE to simplify
 rule cnv_bcf_to_sto:
 	input:
 		bcf = "work/cnv_{runid}_{codeid}.bcf",
@@ -856,6 +860,7 @@ rule cnv_bcf_to_sto:
 		cp {input.bcfi} {output.bcfi}
 	"""
 
+# TODO: REMOVE to simplify
 rule annosnv_bcf_to_sto:
 	input:
 		bcf = "work/snv-anno_{runid}_{codeid}.bcf",
@@ -868,6 +873,7 @@ rule annosnv_bcf_to_sto:
 		cp {input.bcfi} {output.bcfi}
 	"""
 
+# TODO: REMOVE to simplify
 ### To blob storage
 rule cram_to_blob:
 	input:
@@ -881,6 +887,7 @@ rule cram_to_blob:
 		cp {input.crai} {output.crai}
 	"""
 
+# TODO: REMOVE to simplify
 rule snv_bcf_to_blob:
 	input:
 		bcf = "work/snv_{runid}_{codeid}.bcf",
@@ -893,6 +900,7 @@ rule snv_bcf_to_blob:
 		cp {input.bcfi} {output.bcfi}
 	"""
 
+# TODO: REMOVE to simplify
 rule sv_bcf_to_blob:
 	input:
 		bcf = "work/sv_{runid}_{codeid}.bcf",
@@ -905,6 +913,7 @@ rule sv_bcf_to_blob:
 		cp {input.bcfi} {output.bcfi}
 	"""
 
+# TODO: REMOVE to simplify
 rule cnv_bcf_to_blob:
 	input:
 		bcf = "work/cnv_{runid}_{codeid}.bcf",
@@ -917,6 +926,7 @@ rule cnv_bcf_to_blob:
 		cp {input.bcfi} {output.bcfi}
 	"""
 
+# TODO: REMOVE to simplify
 rule annosnv_bcf_to_blob:
 	input:
 		bcf = "work/snv-anno_{runid}_{codeid}.bcf",
