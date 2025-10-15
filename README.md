@@ -35,7 +35,7 @@ Each workflow subdirectory contains:
 
 Every subdirectory includes a ./scripts/ dir with particular R, python or bash scripts for descriptive and or statistical analyses.
 
-Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow framework to run.
+Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow framework to run; or a snakemake equivalent.
 
 ## 📁 Workflow Subdirectory Structure
 
