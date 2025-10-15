@@ -28,9 +28,8 @@ Each workflow subdirectory contains:
 * A small (simulated or real) dataset to demo the code
 * All software dependencies and operating systems  
 * Installation instructions
-* Output examples
+* Output descriptions
 * Expected runtimes
-* Instructions for use on your own data
 
 ### * **No sensitive nor personal data is shared in the repositories** *
 
