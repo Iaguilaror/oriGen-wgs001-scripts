@@ -10,6 +10,11 @@ Repo with the code that was used to call variants in oriGen
 ````
 For a set of 4 lanes, R1 and R2 pairs of fastq files
 
+sto/BCFS/CNV/MYRUNID1/MYCODEID1.bcf
+sto/BCFS/SNV/MYRUNID1/MYCODEID1.bcf
+sto/CRAMS/MYRUNID1/MYCODEID1.cram
+
+
 1) *.cram                     # Sample level CRAM file with alignments to GRCh38
 2) *.vcf.gz (or bcf.gz)      # Sample level VCF file with SNV and INDEL variants
 3) *.cnvpytor.bcf            # Sample level BCF file with copy number variants

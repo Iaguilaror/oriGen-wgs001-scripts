@@ -4,6 +4,6 @@
 #The following environment variables are requested by the workflow but undefined. Please make sure that they are correctly defined before running Snakemake:
 #SAMPLES
 
-export SAMPLES="RUNID1/CODEID1,RUNID2/CODEID2"
+export SAMPLES="MYRUNID1/MYCODEID1"
 
 snakemake -s oGpv3.smk -c 2
