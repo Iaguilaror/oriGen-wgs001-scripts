@@ -8,26 +8,21 @@ Repo with the code that was used to call variants in oriGen
 'oGpv3' is a pipeline tool that takes sequencing data in fastq format to generate the following outputs:  
 
 ````
-For a set of 4 lanes, R1 and R2 pairs of fastq files
+For a set of 4 lanes, R1 and R2 pairs of fastq files:  
 
-sto/BCFS/CNV/MYRUNID1/MYCODEID1.bcf
-sto/BCFS/SNV/MYRUNID1/MYCODEID1.bcf
-sto/CRAMS/MYRUNID1/MYCODEID1.cram
-
-
-1) *.cram                     # Sample level CRAM file with alignments to GRCh38
-2) *.vcf.gz (or bcf.gz)      # Sample level VCF file with SNV and INDEL variants
-3) *.cnvpytor.bcf            # Sample level BCF file with copy number variants
-
+sto/BCFS/CNV/MYRUNID1/MYCODEID1.bcf  # Sample level BCF file with copy number variants  
+sto/BCFS/SNV/MYRUNID1/MYCODEID1.bcf  # Sample level BCF file with SNV and INDEL variants  
+sto/CRAMS/MYRUNID1/MYCODEID1.cram    # Sample level CRAM file with alignments to GRCh38  
 ````
+
 ---
 
 ### Features
   **-v 0.0.1**
 
 * Supports FASTQ files (from illumina)
-* Results include CRAM, VCF, and Copy Number BCF
-* Scalability and reproducibility via a Nextflow-based framework   
+* Results include CRAM, short variant BCF, and Copy Number BCF
+* Scalability and reproducibility via a snakemake-based framework   
 
 ---
 
@@ -47,28 +42,20 @@ sto/CRAMS/MYRUNID1/MYCODEID1.cram
 |:---------:|:--------:|:-------------------:|
 | [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html) | 24.04.3 | nextflow |
 | [bcftools](https://anaconda.org/bioconda/bcftools) | 1.20 | bcftools |
-| [vep](https://www.ensembl.org/info/docs/tools/vep/script/vep_download.html) | 113.0 | vep |
-| [R](https://www.r-project.org/) | 4.4.1 (2024-06-14) | Rscript |
+| [snakemake](https://anaconda.org/bioconda/snakemake) | 9.13.2 | snakemake |
+| [fastp](https://anaconda.org/bioconda/fastp) | 1.0.1 | fastp |
+| [bwa-mem2](https://anaconda.org/bioconda/bwa-mem2) | 2.3 | bwa-mem2 |
+| [samtools](https://anaconda.org/bioconda/samtools) | 1.22.1 | samtools |
+| [graphtyper](https://anaconda.org/bioconda/graphtyper) | 2.7.7 | graphtyper |
+| [cnvpytor](https://anaconda.org/bioconda/cnvpytor) | 1.3.1 | cnvpytor |
+| [python](https://anaconda.org/anaconda/python/files?version=3.11.4) | 3.11 | python |
 
 \* These commands must be accessible from your `$PATH` (*i.e.* you should be able to invoke them from your command line).  
 
-#### R packages required:
+#### python packages required:
 
 ```
-vroom version: 1.6.5
-tidyr version: 1.3.1
-dplyr version: 1.1.4
-ggplot2 version: 3.5.1
-purrr version: 1.0.4
-ggalluvial version: 0.12.5
-ggsci version: 3.2.0
-scales version: 1.4.0
-stringr version: 1.5.1
-viridis version: 0.6.5
-hexbin version: 1.28.5
-ggExtra version: 0.10.1
-patchwork version: 1.3.0
-cowplots version: 1.1.3
+numpy version: 1.26  
 ```
 
 ---
@@ -78,31 +65,14 @@ Download pipeline from Github repository:
 ```
 git clone https://github.com/Iaguilaror/oriGen-wgs001-scripts.git
 
-cd oriGen-wgs001-scripts/vep-extended
+cd oriGen-wgs001-scripts/oGpv3/single-sample-calling
 ```
 ---
 
-### IMPORTANT: Install References
-
-This pipeline requires you to download external databases and pass them to the runtest.sh script as the --dbsnp_ref --gnomad_ref --mcps_ref params.
-
-It also requires that you have the following files/databases in your local system:
-
-```
-GRCh38_dbsnp156.vcf.gz
-gnomAD_v4_for_VEP_annotation.vcf.gz
-MCPS_for_VEP_annotation.vcf.gz 
-```
-
-Each database must have the same chr nomenclature as your VCF file.  
-
-Db's were downloaded from: https://www.ncbi.nlm.nih.gov/snp/  , https://gnomad.broadinstitute.org/downloads  ,  https://www.ctsu.ox.ac.uk/research/prospective-blood-based-study-of-150-000-individuals-in-mexico    
-
----
 
 ## Replicate our analysis (Testing the pipeline):
 
-* Estimated test time:  **3 minute(s)**  
+* Estimated test time:  **10 minute(s)**  
 * on a 16 core, 64G RAM machine  
 
 1. To test pipeline execution using test data, run:  
@@ -110,69 +80,77 @@ Db's were downloaded from: https://www.ncbi.nlm.nih.gov/snp/  , https://gnomad.b
 bash runtest.sh
 ```
 
-2. Your console should print the Nextflow log for the run, once every process has been submitted, the following message will appear:  
+2. Your console should print the snakemake log for the run, once every process has been submitted, the following message will appear:  
 ```
 ======
  Basic pipeline TEST SUCCESSFUL
 ======
 ```
 
-3. Pipeline results for test data should be in the following directory:  
+3. Pipeline results for test data should be in the following directories:  
 ```
-./test/results/
+./sto/BCFS
+./sto/CRAMS
 ```
 ---
 
 
 ### Pipeline Inputs
 
-* A directory containing a `.vcf.gz file and .vcf.gz.tbi index` with genotypes of multiple samples.
+* A directory containing a set of `multi LANE fastq files` with sequencing data of one sample. However, many samples can be run in parallel
 
-Example contents  
+Example contents for ONE sample  
 ```
-##fileformat=VCFv4.2
-##FILTER=<ID=PASS,Description="All filters passed">
-##ALT=<ID=NON_REF,Description="Represents any possible alternative allele at this location">
-##FILTER=<ID=LowQual,Description="Low quality">
-...
-#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  NA19648 NA19649 NA19650 NA19651 NA19652 NA19653 NA19654 NA19655 NA19656NA19657 NA19658 NA19659 NA19660 NA19661 NA19662 NA19663 NA19664 NA19665 NA19669 NA19670 NA19671 NA19675 NA19676 NA19677 NA19678 NA19679 NA19680NA19681 NA19682 NA19683 NA19684 NA19685 NA19686 NA19716 NA19717 NA19718 NA19719 NA19720 NA19721 NA19722 NA19723 NA19724 NA19725 NA19726 NA19727NA19728 NA19729 NA19730 NA19731 NA19732 NA19733 NA19734 NA19735 NA19740 NA19741 NA19746 NA19747 NA19748 NA19749 NA19750 NA19751 NA19752 NA19755NA19756 NA19757 NA19758 NA19759 NA19760 NA19761 NA19762 NA19763 NA19764 NA19770 NA19771 NA19772 NA19773 NA19774 NA19775 NA19776 NA19777 NA19778NA19779 NA19780 NA19781 NA19782 NA19783 NA19784 NA19785 NA19786 NA19787 NA19788 NA19789 NA19790 NA19792 NA19794 NA19795 NA19796
-1       79279   .       C       T       .       PASS    AF=0.000343643;AN=172;AC=2;MAF=0.000333 GT      0/0     0/0     0/0     0/0     0/0
-     ./.     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/1     0/1     ./.     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     0/0
-     0/0     ./.     ./.     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0
-1       86065   .       G       C       .       PASS    AF=0.041595;AN=174;AC=2;MAF=0.0403065   GT      0/0     0/0     0/0     0/0     0/0
-     ./.     0/0     0/0     0/0     0/1     0/0     0/1     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     0/0
-     0/0     ./.     ./.     0/0     ./.     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0     0/0
-...
+input/
+└── MYRUNID1
+   └── MYCODEID1
+       ├── MYCODEID1_A0_L001_R1_000.fastq.gz
+       ├── MYCODEID1_A0_L001_R2_000.fastq.gz
+       ├── MYCODEID1_A0_L002_R1_000.fastq.gz
+       ├── MYCODEID1_A0_L002_R2_000.fastq.gz
+       ├── MYCODEID1_A0_L003_R1_000.fastq.gz
+       ├── MYCODEID1_A0_L003_R2_000.fastq.gz
+       ├── MYCODEID1_A0_L004_R1_000.fastq.gz
+       └── MYCODEID1_A0_L004_R2_000.fastq.gz
 ```  
 
-* A `GRCh38_dbsnp156.vcf.gz` VCF file containing the dbSNP Build 156 database aligned to the human genome reference GRCh38.  
+* A `ref/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa` fasta file cotaining the human genome reference GRCh38.  
 
-* A `gnomAD_v4_for_VEP_annotation.vcf.gz` VCF file containing the gnomAD v4 database (all chromosomes).  
+* A full set of bwa-mem2 references created from the above fasta file.  
 
-* A `MCPS_for_VEP_annotation.vcf.gz` VCF file containing the Mexico City Prospective Project allele frequencies (all chromosomes).  
+Example reference dir
+```
+ref/
+├── Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
+├── Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.0123
+├── Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.amb
+├── Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.ann
+├── Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.bwt.2bit.64
+├── Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.fai
+└── Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.pac
+```  
 
 ---
 
 ### Pipeline Results
 
 ```
-Inside the directory test/results/origen-vepextended/05-0-extractnovel you can find the following:  
+Inside the directory sto/ you can find the following:  
 
-1) *.novel.vcf.gz                           # VEP annotated VCF file only for variants with no rsID found  
-
-Inside the directory test/results/origen-vepextended/05-a-dbsnp_summ you can find the following:  
-
-2) *.dbsnp_summary.txt                      # Summary of novel variants by type, and chromosome  
-
-Inside the directory test/results/origen-vepextended/05-b-vcf2tsv you can find the following:  
-
-3) *_gnomADv4_MCPS.allelefrequencies.tsv    # Table format for allele frecuencies in gnomAD, and MCPS  
-
-Inside the directory test/results/origen-vepextended/06-a-dbsnp_plot you can find the following:  
-
-4) novel_variants.tsv                       # Table with total % of novel variants by type  
-5) sankey_novel.png                         # Plot for the novel_variants.tsv table  
-
+sto/
+├── BCFS
+│   ├── CNV
+│   │   └── MYRUNID1
+│   │       ├── MYCODEID1.bcf      # Copy Number Variants detected by CNVpytor
+│   │       └── MYCODEID1.bcf.csi
+│   └── SNV
+│       └── MYRUNID1
+│           ├── MYCODEID1.bcf      # Short Variants (SNV, and INDL) detecetd by graphtyper
+│           └── MYCODEID1.bcf.csi
+└── CRAMS
+    └── MYRUNID1
+        ├── MYCODEID1.cram         # Alignment files
+        └── MYCODEID1.cram.crai
 ```
 
 
@@ -182,46 +160,39 @@ Inside the directory test/results/origen-vepextended/06-a-dbsnp_plot you can fin
 
 ````
 .
-├── main.nf         # the Nextflow main script
-├── modules/        # sub-dirs for development of the Nextflow modules
-├── README.md       # This readme
-├── runtest.sh      # bash script to launch the pipeline test locally
-├── scripts/        # directory with all the scripts used by the pipeline
-└── test
-    └── data       # sample data to run this pipeline
-
+├── anno         # not used
+├── blob         # not used
+├── cache        # not used
+├── input        # directory with FASTQ files in subdirectories by sample
+├── logs         # snakemake logs
+├── oGpv3.smk    # the snakemake main script
+├── README.md    # This readme
+├── ref          # directory to store the human reference files (fasta, and bwa-mem2 index files)
+├── reports      # not used
+├── runtest.sh   # script to run the test data flow
+└── sto          # storage directory for results
 ````
 
 ---
 ### References
 Under the hood this pipeline uses some coding tools, please include the following ciations in your work:
 
-* Di Tommaso, P., Chatzou, M., Floden, E. W., Barja, P. P., Palumbo, E., & Notredame, C. (2017). Nextflow enables reproducible computational workflows. Nature Biotechnology, 35(4), 316–319. doi:10.1038/nbt.3820
-
-* Team, R. C. (2017). R: a language and environment for statistical computing. R Foundation for Statistical Computing, Vienna. http s. www. R-proje ct. org.
-
-* Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” Journal of Open Source Software, 4(43), 1686. doi:10.21105/joss.01686.
+* Mölder, F., Jablonski, K.P., Letcher, B., Hall, M.B., Tomkins-Tinch, C.H., Sochat, V., Forster, J., Lee, S., Twardziok, S.O., Kanitz, A., Wilm, A., Holtgrewe, M., Rahmann, S., Nahnsen, S., Köster, J., 2021. Sustainable data analysis with Snakemake. F1000Res 10, 33.  
 
 * Danecek, Petr, et al. "Twelve years of SAMtools and BCFtools." Gigascience 10.2 (2021): giab008.
 
-* Karczewski, Konrad J., et al. "The mutational constraint spectrum quantified from variation in 141,456 humans." Nature 581.7809 (2020): 434-443.
+* Eggertsson, Hannes P., et al. "Graphtyper enables population-scale genotyping using pangenome graphs." Nature genetics 49.11 (2017): 1654-1660.  
 
-* McLaren W, Gil L, Hunt SE, Riat HS, Ritchie GR, Thormann A, Flicek P, Cunningham F.
-The Ensembl Variant Effect Predictor. Genome Biology Jun 6;17(1):122. (2016)
-
-* Ziyatdinov, Andrey, et al. "Genotyping, sequencing and analysis of 140,000 adults from Mexico City." Nature 622.7984 (2023): 784-793.  
-
+* Suvakov, Milovan, et al. "CNVpytor: a tool for copy number variation detection and analysis from read depth and allele imbalance in whole-genome sequencing." Gigascience 10.11 (2021): giab074.  
 ---
 
 ### Contact
 If you have questions, requests, or bugs to report, open an issue in github, or email <iaguilaror@gmail.com>
 
 ### Dev Team
-Israel Aguilar-Ordonez <iaguilaror@gmail.com>   
-Victor Trevino Alvarado <vtrevino@tec.mx>   
 Eugenio Guzman Cerezo <eugenio.guzman@tec.mx>   
-
-This code was developed as part of Israel Aguilar-Ordoñez’s postdoctoral research at Tecnológico de Monterrey during the 2024–2025. 
+Victor Trevino Alvarado <vtrevino@tec.mx>   
+Israel Aguilar-Ordonez <iaguilaror@gmail.com>   
 
 ### Cite us
 - TO-DO
