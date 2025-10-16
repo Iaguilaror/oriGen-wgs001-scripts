@@ -27,24 +27,10 @@ THREADS = 12
 save_to_blobsto = False
 do_cache = "false"
 
-CONTIGS = list(map(str, range(1,23))) + ["X", "Y", "MT"]
+#CONTIGS = list(map(str, range(21))) + ["X", "Y", "MT"]
+CONTIGS = ['21']
 LANES = [1,2,3,4]
 
-# This was not used, should delete
-ANNOVAR_DBS = {
-	"refGene": "g",
-	"cytoBand": "r",
-	"dbnsfp31a_interpro": "f",
-	"gnomad40_genome": "f",
-	"clinvar_20221231": "f",
-	"dbnsfp42a": "f",
-	"avsnp150": "f",
-	"intervar_20180118": "f",
-	"revel": "f",
-	"mcap": "f"
-}
-
-# TODO: change reference to chr21 or something smaller (github limits)
 
 SAMPLES = [tuple(x.split("/")) for x in os.environ["SAMPLES"].split(",")]
 RUNIDS = [runid for runid, codeid in SAMPLES]
@@ -65,11 +51,12 @@ wildcard_constraints:
     lane="[0-9]+"
 
 relative_chr_sizes = {
-	 "1": 248,  "2": 242,  "3": 201,  "4": 193,  "5": 182,
-	 "6": 172,  "7": 160,  "8": 146,  "9": 150, "10": 134,
-	"11": 135, "12": 133, "13": 113, "14": 101, "15": 99,
-	"16": 96,  "17": 84,  "18": 80,  "19": 61,  "20": 66,
-	"21": 45,  "22": 51,   "X": 154,  "Y": 62,  "MT": 1
+#	 "1": 248,  "2": 242,  "3": 201,  "4": 193,  "5": 182,
+#	 "6": 172,  "7": 160,  "8": 146,  "9": 150, "10": 134,
+#	"11": 135, "12": 133, "13": 113, "14": 101, "15": 99,
+#	"16": 96,  "17": 84,  "18": 80,  "19": 61,  "20": 66,
+	"21": 45
+#,  "22": 51,   "X": 154,  "Y": 62,  "MT": 1
 }
 
 
@@ -91,18 +78,8 @@ rule all:
 		# BCFs @ storage volume
 		*sample_files("sto/BCFS/SNV/{runid}/{codeid}.bcf"),
 		*sample_files("sto/BCFS/SNV/{runid}/{codeid}.bcf.csi"),
-		*sample_files("sto/BCFS/SV/{runid}/{codeid}.bcf"),
-		*sample_files("sto/BCFS/SV/{runid}/{codeid}.bcf.csi"),
 		*sample_files("sto/BCFS/CNV/{runid}/{codeid}.bcf"),
-		*sample_files("sto/BCFS/CNV/{runid}/{codeid}.bcf.csi"),
-		*sample_files("sto/BCFS/annoSNV/{runid}/{codeid}.bcf"),
-		*sample_files("sto/BCFS/annoSNV/{runid}/{codeid}.bcf.csi"),
-		# QC reports
-		*sample_files("reports/FASTP/{runid}/{codeid}_L{sub}_fastp.json", LANES),
-		*sample_files("reports/MARKDUPS/{runid}/{codeid}_L{sub}_dups.txt", LANES),
-		*sample_files("reports/SAMCOV/{runid}/{codeid}_L{sub}_coverage.tsv", LANES),
-		*sample_files("reports/SAMSTATS/{runid}/{codeid}.txt"),
-		*sample_files("reports/BCFSTATS/SNV/{runid}/{codeid}.txt"),
+		*sample_files("sto/BCFS/CNV/{runid}/{codeid}.bcf.csi")
 
 rule link_fastqs:
 	input: "input/{runid}/{codeid}/"
@@ -129,26 +106,10 @@ rule cache_ref:
 			cp ref/{REF_GENOME_FILENAME}.fa.fai cache/ref/{REF_GENOME_FILENAME}.fa.fai
 			cp -r ref/cram_cache cache/ref/cram_cache
 		else
-			ln -sr ref/{REF_GENOME_FILENAME}.fa cache/ref/{REF_GENOME_FILENAME}.fa
-			ln -sr ref/{REF_GENOME_FILENAME}.fa.fai cache/ref/{REF_GENOME_FILENAME}.fa.fai
+			ln -srf ref/{REF_GENOME_FILENAME}.fa cache/ref/{REF_GENOME_FILENAME}.fa
+			ln -srf ref/{REF_GENOME_FILENAME}.fa.fai cache/ref/{REF_GENOME_FILENAME}.fa.fai
 			rm cache/ref/cram_cache || true
-			ln -sr ref/cram_cache cache/ref/cram_cache
-		fi
-	"""
-
-# TODO: REMOVE, did not use annotation
-rule cache_anno:
-	input: "anno/"
-	output: directory("cache/anno/")
-	threads: max(THREADS - 1, 1)
-	shell: """
-		if {do_cache}
-		then
-			mkdir cache/anno/
-			ls anno | grep "^hg38_" | parallel -j {threads} cp anno/{{}} cache/anno/{{}}
-		else
-			rm cache/anno || true
-			ln -sr anno cache/anno
+			ln -srf ref/cram_cache cache/ref/cram_cache
 		fi
 	"""
 
@@ -394,107 +355,6 @@ rule join_snv:
 			echo LsFailedException: {output.bcfi} >> {log}
 	"""
 
-# TODO: REMOVE to simplify
-rule discover_sv: #v3
-	input:
-		cram = "work/merged_{runid}_{codeid}.cram",
-		crai = "work/merged_{runid}_{codeid}.cram.crai",
-		ref = REF_GENOME
-	output: temp(directory("work/manta_{runid}_{codeid}/"))
-	threads: THREADS
-	resources:
-		runtime = 13,
-		mem_mb = 48
-	log: "logs/discover_sv/{runid}_{codeid}.log"
-	shell: """
-		echo "" > {log}
-		{PROLOGUE}
-
-		/usr/bin/time -v configManta.py \\
-			--bam {input.cram} \\
-			--referenceFasta {input.ref} \\
-			--runDir {output} \\
-			>> {log} 2>&1
-		
-		/usr/bin/time -v python2 {output}/runWorkflow.py \\
-			-j {threads} \\
-			>> {log} 2>&1
-
-		du -bc {output} >> {log} 2>&1 ||
-			echo DuFailedException: {output} >> {log}
-	"""
-
-# TODO: REMOVE to simplify	
-rule call_sv: #v3
-	input:
-		cram = "work/merged_{runid}_{codeid}.cram",
-		crai = "work/merged_{runid}_{codeid}.cram.crai",
-		manta = "work/manta_{runid}_{codeid}/",
-		ref = REF_GENOME
-	output: temp(directory("work/sv-gt_{runid}_{codeid}/{contig}/"))
-	threads: 1
-	resources:
-		runtime = 20,
-		mem_mb = 450
-	log: "logs/call_sv/{runid}_{codeid}_{contig}.log"
-	shell: """
-		echo "" > {log}
-		{PROLOGUE}
-
-        /usr/bin/time -v graphtyper genotype_sv \\
-            --sam={input.cram} \\
-            --region={wildcards.contig} \\
-            --output=work/sv-gt_{wildcards.runid}_{wildcards.codeid}/ \\
-            --threads {threads} \\
-            {input.ref} {input.manta}/results/variants/diploidSV.vcf.gz \\
-            >> {log} 2>&1
-
-        du -bc {output} >> {log} 2>&1 || \\
-			echo DuFailedException: {output} >> {log}
-	"""
-
-# TODO: REMOVE to simplify
-rule join_sv:
-	input:
-		contigs = expand("work/sv-gt_{{runid}}_{{codeid}}/{contig}/", contig=CONTIGS),
-		ref = REF_GENOME
-	output:
-		bcf = temp("work/sv_{runid}_{codeid}.bcf"),
-		bcfi = temp("work/sv_{runid}_{codeid}.bcf.csi")
-	threads: THREADS
-	resources:
-		runtime = 1,
-		mem_mb = 21
-	params:
-		athreads = threads_minus_two
-	log: "logs/join_sv/{runid}_{codeid}.log"
-	shell: """
-		echo "" > {log}
-		{PROLOGUE}
-
-		/usr/bin/time -v bash -o pipefail -ce '
-			( for chromdir in {input.contigs}; do find $chromdir -name "*.vcf.gz" | sort; done; ) | \\
-			/usr/bin/time -v bcftools concat \\
-				--naive \\
-				-Oz \\
-				-f /dev/stdin | \\
-			/usr/bin/time -v bcftools view \\
-				--write-index \\
-				-o "{output.bcf}" \\
-				-Ob \\
-				--threads {params.athreads} \\
-				/dev/stdin
-		' >> {log} 2>&1
-			
-		rm -r work/snv-gt_{wildcards.runid}_{wildcards.codeid}/input_sites >> {log} 2>&1 || \\
-			echo "RmFailedException: work/snv-gt_{wildcards.runid}_{wildcards.codeid}/input_sites" >> {log}
-		
-		ls -l {output.bcf} >> {log} 2>&1 || \\
-			echo "LsFailedException: {output.bcf}" >> {log}
-		ls -l {output.bcfi} >> {log} 2>&1 || \\
-			echo "LsFailedException: {output.bcfi}" >> {log}
-	"""
-
 rule call_cnv: #v3
 	input:
 		cram = "work/merged_{runid}_{codeid}.cram",
@@ -599,78 +459,40 @@ rule sort_cnv_bcf: #v3
 			echo LsFailedException: {output.bcfi} >> {log}
 	"""
 
-# TODO: REMOVE to simplify
-### --- QC --- ###
-rule cram_lane_coverage:
-	input: "work/dupsmarked_{runid}_{codeid}_L{lane}.cram"
-	output: "reports/SAMCOV/{runid}/{codeid}_L{lane}_coverage.tsv"
-	threads: 1
-	resources:
-		mem_mb = 150
-	log: "logs/cram_lane_coverage/{runid}_{codeid}_L{lane}.log"
-	shell: """
-		echo "" > {log}
-		{PROLOGUE}
-
-		/usr/bin/time -v samtools coverage \\
-			-o "{output}" \\
-			"{input}" \\
-			>> {log} 2>&1
-
-		ls -l {output} >> {log} 2>&1 || \\
-			echo LsFailedException: {output} >> {log}
-	"""
-
-# TODO: REMOVE to simplify
-rule cram_stats: # v3
+############
+#### To storage
+rule cram_to_sto:
 	input:
 		cram = "work/merged_{runid}_{codeid}.cram",
-		crai = "work/merged_{runid}_{codeid}.cram.crai",
-		ref = REF_GENOME
-	output: "reports/SAMSTATS/{runid}/{codeid}.txt"
-	threads: THREADS
-	resources:
-		mem_mb = 600
-	params:
-		athreads = additional_threads
-	log: "logs/cram_stats/{runid}_{codeid}.log"
+		crai = "work/merged_{runid}_{codeid}.cram.crai"
+	output:
+		cram = "sto/CRAMS/{runid}/{codeid}.cram",
+		crai = "sto/CRAMS/{runid}/{codeid}.cram.crai"
 	shell: """
-		echo "" > {log}
-		{PROLOGUE}
-
-		/usr/bin/time -v samtools stats \\
-			-@ {params.athreads} \\
-			-r {input.ref} \\
-			{input.cram} \\
-			> {output} 2>> {log}
-
-		ls -l {output} >> {log} 2>&1 || \\
-			echo LsFailedException: {output} >> {log}
+		cp {input.cram} {output.cram}
+		cp {input.crai} {output.crai}
 	"""
 
-# TODO: REMOVE to simplify
-rule snvbcf_stats: # v3
+rule snv_bcf_to_sto:
 	input:
 		bcf = "work/snv_{runid}_{codeid}.bcf",
-		bcfi = "work/snv_{runid}_{codeid}.bcf.csi",
-		ref = REF_GENOME
-	output: "reports/BCFSTATS/SNV/{runid}/{codeid}.txt"
-	threads: THREADS
-	resources:
-		mem_mb = 1200
-	params:
-		athreads = additional_threads
-	log: "logs/snvbcf_stats/{runid}_{codeid}.log"
+		bcfi = "work/snv_{runid}_{codeid}.bcf.csi"
+	output:
+		bcf = "sto/BCFS/SNV/{runid}/{codeid}.bcf",
+		bcfi = "sto/BCFS/SNV/{runid}/{codeid}.bcf.csi"
 	shell: """
-		echo "" > {log}
-		{PROLOGUE}
+		cp {input.bcf} {output.bcf}
+		cp {input.bcfi} {output.bcfi}
+	"""
 
-		/usr/bin/time -v bcftools stats \\
-			--threads {params.athreads} \\
-			-F {input.ref} \\
-			{input.bcf} \\
-			> {output} 2>> {log}
-
-		ls -l {output} >> {log} 2>&1 || \\
-			echo LsFailedException: {output} >> {log}
+rule cnv_bcf_to_sto:
+	input:
+		bcf = "work/cnv_{runid}_{codeid}.bcf",
+		bcfi = "work/cnv_{runid}_{codeid}.bcf.csi"
+	output:
+		bcf = "sto/BCFS/CNV/{runid}/{codeid}.bcf",
+		bcfi = "sto/BCFS/CNV/{runid}/{codeid}.bcf.csi"
+	shell: """
+		cp {input.bcf} {output.bcf}
+		cp {input.bcfi} {output.bcfi}
 	"""

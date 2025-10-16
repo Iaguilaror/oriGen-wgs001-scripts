@@ -6,4 +6,5 @@
 
 export SAMPLES="MYRUNID1/MYCODEID1"
 
-snakemake -s oGpv3.smk -c 2
+bwa-mem2 index ref/21_Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa \
+&& snakemake -s oGpv3.smk -c 4
