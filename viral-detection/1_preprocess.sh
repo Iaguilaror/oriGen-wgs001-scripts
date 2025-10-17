@@ -7,8 +7,8 @@ rm -rf finds/ tmp/
 mkdir -p finds
 mkdir -p tmp
 
-find test/data -name "*.cram" | parallel -j 4 "bash scripts/01_doblast.sh {}"
+find test/data -name "*.cram" \
+| parallel -j 4 "bash scripts/01_doblast.sh {}" \
+&& cat tmp/*.unmap.tmp > finds/unmap_counts.tsv
 
-# complete after talking to eugenio
-
-# srun -c 2 python generate_summary.py
+python generate_summary.py
