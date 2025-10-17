@@ -5,7 +5,7 @@ Repo with the code that was used to detect viral reads in oriGen
 
 - This pipeline is meant to show the code used in: TO-DO-add url and doi after paper is published
 
-'viral-detection' is a pipeline tool that takes sequencing data in fastq format and a viral balst database to generate the following outputs:  
+'viral-detection' is a pipeline tool that takes sequencing data in CRAM format and a viral blast database to generate the following outputs:  
 
 ````
 For multiple CRAM files:  
