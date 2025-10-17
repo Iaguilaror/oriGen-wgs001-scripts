@@ -6,7 +6,7 @@
   "description": "test/reference/virus_dumydb.fa",
   "number-of-letters": 13868314,
   "number-of-sequences": 756,
-  "last-updated": "2025-10-16T18:51:00",
+  "last-updated": "2025-10-16T19:22:00",
   "number-of-volumes": 1,
   "bytes-total": 3622070,
   "bytes-to-cache": 3477555,
