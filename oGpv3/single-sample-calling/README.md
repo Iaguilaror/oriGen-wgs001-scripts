@@ -35,12 +35,9 @@ sto/CRAMS/MYRUNID1/MYCODEID1.cram    # Sample level CRAM file with alignments to
 
 \* This pipeline may run in other UNIX based OS and versions, but testing is required.  
 
-********* TODO: COMPLETE THIS *********
-
 #### Command line Software required:
 | Requirement | Version  | Required Commands * |
 |:---------:|:--------:|:-------------------:|
-| [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html) | 24.04.3 | nextflow |
 | [bcftools](https://anaconda.org/bioconda/bcftools) | 1.20 | bcftools |
 | [snakemake](https://anaconda.org/bioconda/snakemake) | 9.13.2 | snakemake |
 | [fastp](https://anaconda.org/bioconda/fastp) | 1.0.1 | fastp |
