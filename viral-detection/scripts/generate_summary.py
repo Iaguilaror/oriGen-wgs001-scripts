@@ -16,9 +16,9 @@ import queue
 import time
 from itertools import combinations
 
-# INPUT: Sample list (oriGen-1427.txt)
+# INPUT: Sample list
 samps = set()
-with open("oriGen-1427.txt") as f:
+with open("test/sampleids.txt") as f:
     line_ = f.readline()
     while line_:
         line = line_[:-1]
@@ -26,7 +26,7 @@ with open("oriGen-1427.txt") as f:
         line_ = f.readline()
 
 # INPUT: Virus database index (virusdb.fa.fai)
-vdbi = pd.read_csv("virusdb.fa.fai", sep="\t", names=["chrom", "len", "offset", "linesize", "fulllinesize"]).set_index("chrom")
+vdbi = pd.read_csv("test/reference/virus_dumydb.fa.fai", sep="\t", names=["chrom", "len", "offset", "linesize", "fulllinesize"]).set_index("chrom")
 
 dt_fdf = np.dtype([
     ('sample', np.uint16),
@@ -53,17 +53,17 @@ dt_fdf = np.dtype([
 
 
 # INPUT: Reference genome database index (Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.fai)
-chroms = pd.read_csv("Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.fai", sep="\t", names=["chrom", "len", "offset", "linesize", "fulllinesize"])
+chroms = pd.read_csv("test/reference/21_Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.fai", sep="\t", names=["chrom", "len", "offset", "linesize", "fulllinesize"])
 
 # INPUT: Virus database index (virusdb.fa.fai)
-genomes = pd.read_csv("virusdb.fa.fai", sep="\t", names=["id", "len", "start", "linesize", "linesize2"])
+genomes = pd.read_csv("test/reference/virus_dumydb.fa.fai", sep="\t", names=["id", "len", "start", "linesize", "linesize2"])
 
 version = "000"
 filename_base = f"viralsummary_{version}.{{}}.parquet"
 idx_genomes = genomes["id"].to_dict()
 
 # INPUT: Sample list (oriGen-1427.txt)
-idx_samples = pd.read_csv("oriGen-1427.txt", sep="\t", names=["id"])["id"].to_dict()
+idx_samples = pd.read_csv("test/sampleids.txt", sep="\t", names=["id"])["id"].to_dict()
 
 idx_chroms = chroms["chrom"].to_dict()
 idx_chroms[np.iinfo(np.uint16).max] = "*"
