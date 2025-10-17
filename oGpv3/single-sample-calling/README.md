@@ -79,9 +79,8 @@ bash runtest.sh
 
 2. Your console should print the snakemake log for the run, once every process has been submitted, the following message will appear:  
 ```
-======
- Basic pipeline TEST SUCCESSFUL
-======
+Finished jobid: 0 (Rule: all)
+4 of 4 steps (100%) done
 ```
 
 3. Pipeline results for test data should be in the following directories:  
