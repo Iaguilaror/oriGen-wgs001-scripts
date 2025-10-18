@@ -10,8 +10,8 @@ Repo with the code that was used to detect viral reads in oriGen
 ````
 For multiple CRAM files:  
 
-results/unmap_counts.tsv  # Table file with viral hits for all samples
-results/dna_virus_analysis.ipynb => # Run this jupyter notebook to generate post-analysis plots and tables
+finds/unmap_counts.tsv  # Table file with viral hits for all samples
+dna_virus_analysis.ipynb => # Run this jupyter notebook to generate post-analysis plots and tables
 
 ````
 
@@ -42,6 +42,8 @@ results/dna_virus_analysis.ipynb => # Run this jupyter notebook to generate post
 | [jupyterlab](https://anaconda.org/conda-forge/jupyterlab) | 4.4.9 | jupyter lab |
 | [blast](https://anaconda.org/bioconda/blast) | 2.17.0 | makeblastdb, blastn |
 | [parallel](https://anaconda.org/conda-forge/parallel) | 20250822 | parallel |
+| [perl](https://www.perl.org/get.html) | 5.22.0 | perl |
+| [python](https://www.python.org/downloads/) | 3.12.3 | python |
 
 \* These commands must be accessible from your `$PATH` (*i.e.* you should be able to invoke them from your command line).  
 
@@ -50,6 +52,10 @@ results/dna_virus_analysis.ipynb => # Run this jupyter notebook to generate post
 ```
 numpy version: 1.26  
 pandas version: 2.2.3  
+matplotlib: 3.10.3
+seaborn: 0.13.2
+requests: 2.32.3
+stdlib: 3.12.3
 ```
 
 ---
@@ -66,25 +72,26 @@ cd oriGen-wgs001-scripts/viral-detection
 
 ## Replicate our analysis (Testing the pipeline):
 
-* Estimated test time:  **10 minute(s)**  
+* Estimated test time:  **10 minute(s)**  +  jupyter notebook time  
 * on a 16 core, 64G RAM machine  
 
-1. To test pipeline execution using test data, run:  
+1. To test pipeline execution using test data, first run:  
 ```
-bash runtest.sh
-```
-
-2. Your console should print the following message will appear:  
-```
-======
- Basic pipeline TEST SUCCESSFUL
-======
+bash 1_preprocess.sh
 ```
 
-3. Pipeline results for test data should be in the following directories:  
+2. Then open your jupyter lab (or favorite jupyter IDE) and run all chunks in the following file:  
 ```
-./results/
+jupyter lab dna_virus_analysis.ipynb
 ```
+
+3. Pipeline results for test data should be in the following directory:  
+```
+./finds/
+```
+
+4. Results are also generated in the jupyter notebook: dna_virus_analysis.ipynb  
+
 ---
 
 
@@ -100,6 +107,7 @@ test/
     ├── dummy2.cram.crai
     ├── dummy.cram
     └── dummy.cram.crai
+ ...
 ```  
 
 * A full set of `test/reference/virus_dumydb.*` files with the viral blastdb to survey.  
@@ -118,17 +126,39 @@ test/reference/
 └── virus_dumydb.nto
 ```  
 
+* A pair of `test/reference/21_Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa` human reference files in fasta format.  
+
+Example reference dir
+```
+test/reference/
+├── 21_Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
+└── 21_Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.fai
+```  
+
+* A pair of `test/reference/2494-HPV.fasta` Human Papillomavirus Virus reference files in fasta format.  
+
+Example reference dir
+```
+test/reference/
+├── 494-HPV.fasta
+└── 494-HPV.fasta.fai
+```  
+
 ---
 
 ### Pipeline Results
 
 ```
-Inside the directory sto/ you can find the following:  
+Inside the directory ./finds/ you can find the following:  
 
-results/
-...
+finds/
+├── dummy2.cram.tsv.lz4   # blasthit results for one sample, lz4 compressed  
+├── dummy3.cram.tsv.lz4    
+├── dummy4.cram.tsv.lz4   
+├── dummy.cram.tsv.lz4    
+└── unmap_counts.tsv      # summary of number of unmaped reads by sample  
+
 ```
-
 
 ---
 
@@ -149,7 +179,9 @@ results/
 ### References
 Under the hood this pipeline uses some coding tools, please include the following ciations in your work:
 
-* Danecek, Petr, et al. "Twelve years of SAMtools and BCFtools." Gigascience 10.2 (2021): giab008.
+* Danecek, Petr, et al. "Twelve years of SAMtools and BCFtools." Gigascience 10.2 (2021): giab008.  
+
+* Camacho C., Coulouris G., Avagyan V., Ma N., Papadopoulos J., Bealer K., Madden T.L. (2008) “BLAST+: architecture and applications.” BMC Bioinformatics 10:421. PubMed  
 
 ---
 
