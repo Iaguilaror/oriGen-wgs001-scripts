@@ -12,6 +12,7 @@ nextflow run main.nf \
 	--sample_list "test/reference/1kg_AMRtest_sample_annotations.tsv" \
 	--pca_refpops "test/reference/refpops-for-projection.txt" \
 	--projected true \
+	--random_samples 50 \
 	--params_config $params_config \
 	-c $res_config,$params_config \
 	-resume \
