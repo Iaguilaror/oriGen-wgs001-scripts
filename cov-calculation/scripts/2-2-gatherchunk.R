@@ -11,7 +11,7 @@ pacman::p_load(tidyr, dplyr, vroom, purrr)
 # -------------------------------
 input_files <- list.files(
   path = ".",
-  pattern = "_samtools_mean_dp_all_cov_for_cnv.tsv.gz$",
+  pattern = "_samtools_mean_dp_all_cov_for_cnv.tsv$",
   full.names = TRUE
 )
 

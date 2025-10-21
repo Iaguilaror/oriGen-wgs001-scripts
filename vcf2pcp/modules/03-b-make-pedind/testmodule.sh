@@ -12,5 +12,5 @@ mkdir -p test/results
 
 # run nf script
 nextflow run testmodule.nf \
-    --sample_list "test/reference/OriGen_Phase1_1Kg_and_AiGA.tsv" \
+    --sample_list "test/reference/1kg_AMRtest_sample_annotations.tsv" \
 && echo "[>>>] Module Test Successful" 

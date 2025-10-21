@@ -1,40 +1,53 @@
-# oriGen Phase 1 – Reproducible Analysis Code
+# oriGen – Analysis Code
 
-- This pipelines are meant to reproduce results from: TO-DO-add url and doi after paper is published
+- The code in this repository are meant to reproduce results from: TO-DO-add url and doi after paper is published
 
-Reproducible code and workflows for the oriGen Phase 1 analysis of 1,427 whole genomes.  
+Workflows for the oriGen Analysis of 1,427 whole genomes.  
 
 Welcome! 👋  
-This repository contains code used to analyze the data in the oriGen Phase 1 study, which involved whole-genome sequencing of 1,427 individuals. Our goal is to provide transparent and reproducible access to the workflows behind our results.
+This repository contains code used to analyze the data in the oriGen study, which involved whole-genome sequencing of 1,427 individuals. Our goal is to provide transparent and reproducible access to the workflows behind our results.
 
-## 📄 About the Study
+## 📄 Contents of this repository  
 
-The oriGen Phase 1 study is a population-scale genomic project focused on Mexican individuals. This release includes:
+The oriGen study is a population-scale genomic project focused on Mexican individuals. This release includes the following subdirectories:  
 
-- Variant Effect Annotation
-- CNV Analysis
-- Loss of Function Summary
-- Kinship Analysis
-- ADMIXTURE and Principal Component Analysis
+- **oGpv3**: NGS preprocessing, QC, alignment and Variant Calling
+- **vep-extended**: Variant Effect Annotation
+- **LoFbySample**: Loss of Function variation summary
+- **vcf2kinship**: Kinship Analysis with KING2
+- **vcf2pcp**: ADMIXTURE and Principal Component Analysis from joint population VCF
+- **cnv-analysis**: Processing of the CNV BCFs from CNVpytor
+- **cov-calculation**: NGS coverage calculation by exon for CN estimation
+- **viral-detection**: Detection of viral hits in sequencing data
 
 ## How to use this repository
 
-Each workflow subdirectory contains the Nextflow code used to run analysis on a part of the paper. 
+Each workflow subdirectory contains:
 
-### **No sensitive nor personal data is shared in the repositories**.
+* The Source code used to run analysis on a part of the paper
+* A small (simulated or real) dataset to demo the code
+* All software dependencies and operating systems  
+* Installation instructions
+* Output descriptions
+* Expected runtimes
+
+### * **No sensitive nor personal data is shared in the repositories** *
 
 Every subdirectory includes a ./scripts/ dir with particular R, python or bash scripts for descriptive and or statistical analyses.
 
-Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow framework to run.
+Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow framework to run; or a snakemake equivalent.
 
 ## 📁 Workflow Subdirectory Structure
 
 ```bash
-├── vep-extended/    # Variant Effect Annotation
-├── cnv-analysis/    # CNV Analysis
+├── cnv-analysis/    # CNV Analysis from CNVpytor output
+├── cov-calculation  # Coverage calculation for CNV estimation
 ├── LoFbySample/     # Loss of Function Summary
+├── oGpv3            # pipeline for pre-processing, QC, alignment and short variant calling
 ├── vcf2kinship/     # Kinship Analysis
 ├── vcf2pcp/         # ADMIXTURE and Principal Component Analysis
+├── vep-extended/    # Variant Effect Annotation
+├── viral-detection  # Analysis of viral hits in NGS data
 └── README.md        # This file
 ```
 

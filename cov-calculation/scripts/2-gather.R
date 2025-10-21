@@ -28,6 +28,7 @@ reference.df <- vroom( file = biomart,
 
 all_counts.df <- vroom( file = "merged_with_sample.tmp.gz" ) %>%
   unique( ) %>% 
+  mutate( mean_dp = round( mean_dp , 2 )  ) %>%
   as_tibble( )
 
 ### ----

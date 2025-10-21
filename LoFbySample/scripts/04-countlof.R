@@ -5,8 +5,8 @@ pacman::p_load("vroom", "dplyr", "tidyr")
 args <- commandArgs(trailingOnly = TRUE)
 
 # Debugging mode (uncomment for testing)
-#args[1] <- "gt_matrix.tmp"
-#args[2] <- "copy_100krandomvars_chr21_clean_vep_loftee_only_summary.tsv"
+# args[1] <- "gt_matrix.tmp"
+# args[2] <- "random100000_variants_clean_vep_loftee_only.tsv"
 
 # Assign arguments
 vartsv <- args[1]
@@ -37,7 +37,7 @@ recoded.df <- onlycounts.df %>%
   mutate(across(all_of(sample_cols), recode_genotype))
 
 # Step 3: Count genotype categories per sample and TYPE
-genotype_summary.df <- recoded.df %>%
+genotype_summary.df_1 <- recoded.df %>%
   pivot_longer(cols = -TYPE:-LoF, names_to = "sample", values_to = "gt") %>%
   count(TYPE, sample, gt) %>%
   pivot_wider(
@@ -45,7 +45,15 @@ genotype_summary.df <- recoded.df %>%
     values_from = n,
     values_fill = 0,
     names_sort = TRUE
-  ) %>%
+  ) 
+
+# check if col2 does NOT exist
+if( ! "2" %in% colnames( genotype_summary.df_1 ) ) {
+  genotype_summary.df_1 <- genotype_summary.df_1 %>% 
+  mutate( "2" = 0 )
+}
+
+genotype_summary.df <-  genotype_summary.df_1 %>%
   rename(
     hom_ref = `0`,
     het = `1`,
