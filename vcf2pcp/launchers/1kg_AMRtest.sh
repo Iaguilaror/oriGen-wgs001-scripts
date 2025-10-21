@@ -11,7 +11,7 @@ nextflow run main.nf \
 	--output_dir $output_directory \
 	--sample_list "test/reference/1kg_AMRtest_sample_annotations.tsv" \
 	--pca_refpops "test/reference/refpops-for-projection.txt" \
-	--projected false \
+	--projected true \
 	--params_config $params_config \
 	-c $res_config,$params_config \
 	-resume \
