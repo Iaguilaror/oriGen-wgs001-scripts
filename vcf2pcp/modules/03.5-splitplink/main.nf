@@ -27,11 +27,11 @@ process splitplink {
 
     # Shuffle the input file and split it
     shuf "\$input_file" \
-    | tee >(head -n 500 > "random_500_lines.tmp") \
-    | tail -n +501 > "rest_of_lines.tmp"
+    | tee >(head -n ${params.random_samples} > "random_lines.tmp") \
+    | tail -n +\$(( ${params.random_samples} + 1 )) > "rest_of_lines.tmp"
 
     # put the randoms in the REFs
-    cat random_500_lines.tmp >> REF_IDS.tmp
+    cat random_lines.tmp >> REF_IDS.tmp
 
     # Rename the remaining nonrefs
     mv rest_of_lines.tmp NONREF_IDS.tmp
