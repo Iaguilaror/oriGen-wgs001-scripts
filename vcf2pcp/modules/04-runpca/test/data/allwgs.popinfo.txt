@@ -1,1 +1,0 @@
-../../../03-b-make-pedind/test/results/03b-makepedind/allwgs.popinfo.txt

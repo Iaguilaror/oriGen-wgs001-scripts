@@ -1,3 +1,0 @@
-2024-10-18 15:06:16	5.7s	suspicious_varahamihira	OK	b39419b64e6ef3fbb2959416ddf0c467	cac2ad74-766a-493a-80b0-7cdc0212b25c	nextflow run testmodule.nf --sample_list test/reference/OriGen_Phase1_1Kg_and_AiGA.tsv
-2024-10-18 15:59:51	6.6s	kickass_pauling	ERR	b39419b64e6ef3fbb2959416ddf0c467	d454ca0d-1ba5-4f5c-915a-ccf0ac104628	nextflow run testmodule.nf --sample_list test/reference/OriGen_Phase1_1Kg_and_AiGA.tsv
-2024-10-18 16:03:23	6.6s	sleepy_bohr	OK	b39419b64e6ef3fbb2959416ddf0c467	e10768dc-df70-42c8-aa36-b9b3243745c0	nextflow run testmodule.nf --sample_list test/reference/OriGen_Phase1_1Kg_and_AiGA.tsv
