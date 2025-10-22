@@ -1,0 +1,6 @@
+AFR
+EUR
+SAS
+EAS
+AMR
+mypop_REF
