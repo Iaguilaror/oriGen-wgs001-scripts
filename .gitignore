@@ -8,8 +8,10 @@
 **.nextflow.log*
 **.nextflow
 
-real-data/
-real-results/
+**/real-data/
+**/real-results/
+
+**/test/tutorial-results/
 
 # History files
 .Rhistory
