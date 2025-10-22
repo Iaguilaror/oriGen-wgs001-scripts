@@ -45,72 +45,72 @@ raw_evaldata.df <- raw_evaldata.df %>% filter(V1 > 0)
 ## identify last significant PC
 ## Should be able to load the table title to avoid missing the pvalue column due
 # to changes in smartpca version
-tw.df <- read.table(file = tw_file,
-                    header = F,
-                    sep = "\t", stringsAsFactors = F)
+# tw.df <- read.table(file = tw_file,
+#                     header = F,
+#                     sep = "\t", stringsAsFactors = F)
 
 # Extract number of last significant PC
-last_significant_pc <- tw.df %>%
-  filter(V5 < 0.01) %>%
-  select(V1) %>% max()
+# last_significant_pc <- tw.df %>%
+#   filter(V5 < 0.01) %>%
+#   select(V1) %>% max()
 
-last_significant_pvalue <- tw.df %>%
-  filter(V5 < 0.01) %>%
-  select(V5) %>% max()
+# last_significant_pvalue <- tw.df %>%
+#   filter(V5 < 0.01) %>%
+#   select(V5) %>% max()
 
 ## create message to inform last significant PC and p-value
-scree_title <- paste0("Scree plot - last significant PC is PC",
-                      last_significant_pc,
-                      "\nwith p-value =",
-                      last_significant_pvalue)
+# scree_title <- paste0("Scree plot - last significant PC is PC",
+#                       last_significant_pc,
+#                       "\nwith p-value =",
+#                       last_significant_pvalue)
 
 ## plot scree
-scree.p <- raw_evaldata.df %>% 
-  head( n = last_significant_pc ) %>% 
-  ggplot( data = .,
-          mapping = aes(x = component_number, y = V1, group = 1)) +
-  geom_vline(xintercept = last_significant_pc,
-             lty = "dashed", color = "orange4") +
-  geom_line( color = "blue" , size = 0.5) +
-  geom_point( shape=19, color = "red4", size = 1) +
-  ggtitle(label = scree_title) +
-  scale_y_continuous(name = "eigenvalues") +
-  scale_x_continuous(breaks = 1:max(raw_evaldata.df$component_number),
-                     labels = 1:max(raw_evaldata.df$component_number)) +
-  theme_classic() #+
+# scree.p <- raw_evaldata.df %>% 
+#   head( n = last_significant_pc ) %>% 
+#   ggplot( data = .,
+#           mapping = aes(x = component_number, y = V1, group = 1)) +
+#   geom_vline(xintercept = last_significant_pc,
+#              lty = "dashed", color = "orange4") +
+#   geom_line( color = "blue" , size = 0.5) +
+#   geom_point( shape=19, color = "red4", size = 1) +
+#   ggtitle(label = scree_title) +
+#   scale_y_continuous(name = "eigenvalues") +
+#   scale_x_continuous(breaks = 1:max(raw_evaldata.df$component_number),
+#                      labels = 1:max(raw_evaldata.df$component_number)) +
+#   theme_classic() #+
 #  theme(axis.text.x = element_text(angle = 90, size = 5),
 #        plot.title = element_text(size = 10))
 
 ## calculate % of variance for each PC
-significant_pc.df <- tw.df %>%
-  filter(V5 < 0.01) %>%
-  select(V1, V2)
+# significant_pc.df <- tw.df %>%
+#   filter(V5 < 0.01) %>%
+#   select(V1, V2)
 
-significant_pc.df$V1 <- paste0("PC", significant_pc.df$V1)
-significant_pc.df$explained_variance_proportion <- significant_pc.df$V2 / sum(significant_pc.df$V2)
-# calculate as percentage
-significant_pc.df$variance_proportion_percent <- percent(significant_pc.df$explained_variance_proportion)
-significant_pc.df$cumproportion <- cumsum(significant_pc.df$explained_variance_proportion)
+# significant_pc.df$V1 <- paste0("PC", significant_pc.df$V1)
+# significant_pc.df$explained_variance_proportion <- significant_pc.df$V2 / sum(significant_pc.df$V2)
+# # calculate as percentage
+# significant_pc.df$variance_proportion_percent <- percent(significant_pc.df$explained_variance_proportion)
+# significant_pc.df$cumproportion <- cumsum(significant_pc.df$explained_variance_proportion)
 
-## plot variance proportions
-variance.p <- ggplot(data = significant_pc.df,
-                     aes(x = V1,
-                         y = explained_variance_proportion,
-                         label = variance_proportion_percent) ) +
-  geom_bar(stat = "identity", color = "black", fill = NA) +
-  geom_text(size = 3,
-            position = position_stack(vjust = 0.5)) +
-  geom_line(aes(y = cumproportion, group = 1), color = "red4", alpha = 0.5) +
-  geom_point(aes(y = cumproportion), color = "red4") +
-  scale_y_continuous(limits = c(0,1)) +
-  ggtitle(label = "Explained variance for each significant PC") +
-  theme_bw() +
-  theme(axis.title.x = element_blank())
+# ## plot variance proportions
+# variance.p <- ggplot(data = significant_pc.df,
+#                      aes(x = V1,
+#                          y = explained_variance_proportion,
+#                          label = variance_proportion_percent) ) +
+#   geom_bar(stat = "identity", color = "black", fill = NA) +
+#   geom_text(size = 3,
+#             position = position_stack(vjust = 0.5)) +
+#   geom_line(aes(y = cumproportion, group = 1), color = "red4", alpha = 0.5) +
+#   geom_point(aes(y = cumproportion), color = "red4") +
+#   scale_y_continuous(limits = c(0,1)) +
+#   ggtitle(label = "Explained variance for each significant PC") +
+#   theme_bw() +
+#   theme(axis.title.x = element_blank())
 
 ## save significant pc dataframe
-o_file <- gsub(pattern = ".svg", replacement = ".significant_pc.tsv", svg_file)
-write.table(x = significant_pc.df, file = o_file,
-            append = F, quote = F, sep = "\t", row.names = F, col.names = T)
+# o_file <- gsub(pattern = ".svg", replacement = ".significant_pc.tsv", svg_file)
+# write.table(x = significant_pc.df, file = o_file,
+#             append = F, quote = F, sep = "\t", row.names = F, col.names = T)
 
 ## process data for parallel coordinate plot
 # remove first line, and remove last column
@@ -161,9 +161,11 @@ PCP.p <- ggplot(data = long_plotable.df,
   theme(axis.text.x = element_text(angle = 90))
 
 ## arrange grid
-grid_below <- plot_grid(scree.p, variance.p,
-                        nrow = 1, rel_widths = c(0.3,0.7))
-grid.p <- plot_grid(PCP.p, grid_below, ncol = 1)
+# grid_below <- plot_grid(scree.p, variance.p,
+#                         nrow = 1, rel_widths = c(0.3,0.7))
+# grid.p <- plot_grid(PCP.p, grid_below, ncol = 1)
+
+grid.p <- PCP.p
 
 ## save plot as svg
 ggsave(filename = svg_file,
