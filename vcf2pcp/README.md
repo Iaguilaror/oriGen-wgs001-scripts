@@ -222,5 +222,7 @@ Eugenio Guzman Cerezo <eugenio.guzman@tec.mx>
 
 This code was developed as part of Israel Aguilar-Ordoñez’s postdoctoral research at Tecnológico de Monterrey during the 2024–2025.
 
+* This pipeline is based on the previous work of Judith Ballesteros-Villascan: https://github.com/jbv2/VCF2PCP
+
 ### Cite us
 - TO-DO
