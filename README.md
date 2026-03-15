@@ -48,6 +48,7 @@ Every subdirectory includes a main.nf, and a modules/ subdir with the nextflow f
 ├── vcf2pcp/         # ADMIXTURE and Principal Component Analysis
 ├── vep-extended/    # Variant Effect Annotation
 ├── viral-detection  # Analysis of viral hits in NGS data
+├── files_for_projection_ADMXandPCA # Variant list, ADMIXTURE P files, and PCA weights to project your samples
 └── README.md        # This file
 ```
 
