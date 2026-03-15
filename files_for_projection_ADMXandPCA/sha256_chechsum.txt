@@ -1,0 +1,3 @@
+7cc688bd416433dd2aa0608ab50275a3aa3c797e46ca114b4ba82ad265551133  PCA_weight.tsv.gz
+4e5b32c136a57dce7c1eeb0264238c26fdf7b438a0fa1226f20a32653e2a64ce  references_for_admixture.5.P.gz
+401f272bd5572be68dc06209460089833644786c7b382e1a8b786eeb7e484c29  variant_list_for_admx_and_PCA.tsv.gz
